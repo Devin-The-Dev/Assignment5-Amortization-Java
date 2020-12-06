@@ -80,9 +80,11 @@ public class AmortizationDevinUdy
 //            End Heading
 //            Table
             int count;
-            double interestDisplay, principleDisplay, balanceDisplay;
+            double interestDisplay, principleDisplay, balanceDisplay, paymentTotal, interestTotal;
             String stringMonth = null;
             count = 0;
+            paymentTotal = 0;
+            interestTotal = 0;
 
             //            Payment switch
             switch (paymentAmount)
@@ -139,18 +141,30 @@ public class AmortizationDevinUdy
 
                 interestDisplay = Math.round(interest * 100.0) / 100.0;
                 principleDisplay = Math.round(principle * 100.0) / 100.0;
-
-                if (Math.round(balance * 100.0) / 100.0 < payment)
+                
+                balanceDisplay = Math.round(balance * 100.0) / 100.0;
+                
+                if (balanceDisplay < payment)
                 {
+                    jta.append("    " + paymentNumber + "\t" + dueDate + "\t\t" + payment + "\t" + interestDisplay + "\t" + principleDisplay + "\t" + balanceDisplay + "\n");
+                    paymentNumber++;
                     payment = Math.round(balance * 100.0) / 100.0;
                     balance = payment - Math.round(balance * 100.0) / 100.0;
+//                    loanMonth++;
+                    interestDisplay = Math.round(interestCalc(apr, balanceDisplay) * 100.0) / 100.0;
+                    principleDisplay = payment;
+                    balanceDisplay = 0.0;
                 }
-                balanceDisplay = Math.round(balance * 100.0) / 100.0;
-
+                
                 jta.append("    " + paymentNumber + "\t" + dueDate + "\t\t" + payment + "\t" + interestDisplay + "\t" + principleDisplay + "\t" + balanceDisplay + "\n");
-
+                
+                paymentTotal += payment;
+                interestTotal += interestDisplay;
+                
             }
 
+            jta.append("\n");
+            jta.append("\t\tTotals: \t" + paymentTotal + "\t" + Math.round(interestTotal * 100.0) / 100.0 + "\n");
             jta.append("_____________________________________________________________________________________________\n");
             jta.append("\n");
 
