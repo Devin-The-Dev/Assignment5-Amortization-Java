@@ -72,7 +72,7 @@ public class AmortizationDevinUdy
             jta.append("\t\t\t\t" + city + ", " + state + ", " + zip + "\n");
             jta.append("\n");
             jta.append("Loan Amount: \t" + "$" + loanAmount + "\n");
-            jta.append("Interest Rate: \t" + Math.round(aprPercentage * 100.0) / 100.0 + "%\n");
+            jta.append("Interest Rate: \t" + rounding(aprPercentage) + "%\n");
             jta.append("\n");
             jta.append("Payment# \t Due Date \t\tPayment \tInterest \tPrinciple \tBalance \n");
             jta.append("---------------------------------------------------------------------------------\n");
@@ -139,19 +139,19 @@ public class AmortizationDevinUdy
                 principle = principleCalc(payment, interest);
                 balance -= principle;
 
-                interestDisplay = Math.round(interest * 100.0) / 100.0;
-                principleDisplay = Math.round(principle * 100.0) / 100.0;
+                interestDisplay = rounding(interest);
+                principleDisplay = rounding(principle);
                 
-                balanceDisplay = Math.round(balance * 100.0) / 100.0;
+                balanceDisplay = rounding(balance);
                 
                 if (balanceDisplay < payment)
                 {
                     jta.append("    " + paymentNumber + "\t" + dueDate + "\t\t" + payment + "\t" + interestDisplay + "\t" + principleDisplay + "\t" + balanceDisplay + "\n");
                     paymentNumber++;
-                    payment = Math.round(balance * 100.0) / 100.0;
-                    balance = payment - Math.round(balance * 100.0) / 100.0;
+                    payment = rounding(balance);
+                    balance = payment - rounding(balance);
 //                    loanMonth++;
-                    interestDisplay = Math.round(interestCalc(apr, balanceDisplay) * 100.0) / 100.0;
+                    interestDisplay = rounding(interestCalc(apr, balanceDisplay));
                     principleDisplay = payment;
                     balanceDisplay = 0.0;
                 }
@@ -164,7 +164,7 @@ public class AmortizationDevinUdy
             }
 
             jta.append("\n");
-            jta.append("\t\tTotals: \t" + paymentTotal + "\t" + Math.round(interestTotal * 100.0) / 100.0 + "\n");
+            jta.append("\t\tTotals: \t" + paymentTotal + "\t" + rounding(interestTotal) + "\n");
             jta.append("_____________________________________________________________________________________________\n");
             jta.append("\n");
 
@@ -185,6 +185,13 @@ public class AmortizationDevinUdy
         double principle;
         principle = pay1 - int1;
         return principle;
+    }
+    
+    public static double rounding(double num)
+    {
+        double roundNum;
+        roundNum = Math.round(num * 100.0) / 100.0;
+        return roundNum;
     }
 
 }
