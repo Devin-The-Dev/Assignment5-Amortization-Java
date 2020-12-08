@@ -144,7 +144,7 @@ public class AmortizationDevinUdy
                 
                 balanceDisplay = rounding(balance);
                 
-                if (balanceDisplay < payment)
+                if (balanceDisplay <= payment)
                 {
                     jta.append("    " + paymentNumber + "\t" + dueDate + "\t\t" + payment + "\t" + interestDisplay + "\t" + principleDisplay + "\t" + balanceDisplay + "\n");
                     paymentNumber++;
@@ -154,10 +154,10 @@ public class AmortizationDevinUdy
                     interestDisplay = rounding(interestCalc(apr, balanceDisplay));
                     principleDisplay = payment;
                     balanceDisplay = 0.0;
-                }
-                
+                } else 
+                {
                 jta.append("    " + paymentNumber + "\t" + dueDate + "\t\t" + payment + "\t" + interestDisplay + "\t" + principleDisplay + "\t" + balanceDisplay + "\n");
-                
+                }
                 paymentTotal += payment;
                 interestTotal += interestDisplay;
                 
