@@ -110,7 +110,7 @@ public class AmortizationDevinUdy
 //                Transaction dates
                 loanMonth++;
 
-                if (loanMonth > 13)
+                if (loanMonth == 13)
                 {
                     loanMonth = 1;
                     loanYear++;
@@ -150,7 +150,7 @@ public class AmortizationDevinUdy
                     paymentNumber++;
                     payment = rounding(balance);
                     balance = payment - rounding(balance);
-//                    loanMonth++;
+                    loanMonth++;
                     interestDisplay = rounding(interestCalc(apr, balanceDisplay));
                     principleDisplay = payment;
                     balanceDisplay = 0.0;
